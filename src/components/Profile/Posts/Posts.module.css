@@ -1,0 +1,8 @@
+.posts{
+    grid-area: p;
+    /*background-color: greenyellow;*/
+}
+
+.posts {
+    padding-top: 20px;
+}

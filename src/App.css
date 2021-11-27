@@ -1,0 +1,41 @@
+.app-wrapper {
+    padding: 20px;
+
+    display: grid;
+
+    grid-template-areas:
+    "h h"
+    "n c";
+
+    grid-template-rows: 70px 1fr;
+    grid-template-columns: 250px 10fr;
+    grid-gap: 10px;
+}
+
+.app-wrapper-content {
+    grid-area: c;
+    padding: 20px;
+}
+
+a:link, a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    color: royalblue;
+}
+
+button {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+button:hover{
+    color: royalblue;
+    cursor: pointer;
+}

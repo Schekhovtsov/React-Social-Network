@@ -1,0 +1,30 @@
+.post {
+    display: grid;
+
+    grid-template-areas:
+    "pa pt"
+    "pa pl";
+
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 0.1fr 10fr;
+    grid-gap: 10px;
+
+    padding-bottom: 10px;
+}
+
+.post .avatar {
+    grid-area: pa;
+}
+
+.post .avatar img {
+    width: 70px;
+    height: 70px;
+}
+
+.post .text {
+    grid-area: pt;
+}
+
+.post .likes {
+    grid-area: pl;
+}

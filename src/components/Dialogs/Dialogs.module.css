@@ -1,0 +1,12 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+}
+
+.messages {
+    padding: 15px;
+}
+
+.newPostForm {
+    padding-top: 20px;
+}

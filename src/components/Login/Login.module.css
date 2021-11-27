@@ -1,0 +1,9 @@
+a.link {
+    color: royalblue;
+    font-weight: bold;
+}
+
+a.link:hover{
+    color: black;
+    text-decoration: underline;
+}

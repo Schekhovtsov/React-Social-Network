@@ -1,0 +1,25 @@
+.nav {
+    grid-area: n;/*
+    background-color: bisque;*/
+    padding: 20px;
+}
+
+.item {
+    font-size: 14pt;
+    padding-bottom: 5px;
+}
+
+.item a {
+    color: black;
+    text-decoration: none;
+}
+
+.item a:hover{
+    color: royalblue;
+}
+
+.item a.active {
+    font-weight: bold;
+    color: royalblue;
+}
+

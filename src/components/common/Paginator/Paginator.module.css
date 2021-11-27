@@ -1,0 +1,18 @@
+.changePageButton {
+    padding-bottom: 30px;
+}
+
+.changePageButton span:first-child {
+    margin: 0;
+}
+
+.changePageButton span {
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+    margin-left: 3px;
+}
+
+.selectedPage {
+    font-weight: bold;
+}
