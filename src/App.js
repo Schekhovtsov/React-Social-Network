@@ -2,7 +2,7 @@ import './App.css';
 
 import React, {Suspense} from 'react';
 import Sidebar from "./components/Sidebar/Sidebar";
-import {BrowserRouter, Route, withRouter} from 'react-router-dom';
+import {BrowserRouter, Route, Routes, } from 'react-router-dom';
 
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
@@ -34,21 +34,14 @@ class App extends React.Component {
                 <Sidebar />
                 <div className='app-wrapper-content'>
                     <Suspense fallback={<Preloader />}>
-                        <Route path='/profile/:userId?'>
-                            <ProfileContainer />
-                        </Route>
-
-                        <Route exact path='/users'>
-                            <UsersContainer />
-                        </Route>
-
-                        <Route exact path='/dialogs'>
-                            <DialogsContainer />
-                        </Route>
-
-                        <Route exact path='/login'>
-                            <LoginContainer />
-                        </Route>
+                        <Routes>
+                            <Route path='/profile' element={<ProfileContainer />} >
+                                <Route path=':userId' element={<ProfileContainer />} />
+                            </Route>
+                            <Route exact path='/users' element={<UsersContainer />} />
+                            <Route exact path='/dialogs' element={<DialogsContainer />} />
+                            <Route exact path='/login' element={<LoginContainer />} />
+                        </Routes>
                     </Suspense>
                 </div>
             </div>
@@ -62,7 +55,7 @@ const mapStateToProps = (state) => ({
 });
 
 let AppContainer = compose(
-    withRouter,
+    //withRouter,
     connect(mapStateToProps, {initializeApp, logout})
 )(App);
 

@@ -28,8 +28,6 @@ const AddPostForm = (props) => {
 
 const Posts = React.memo(props => {
 
-    console.log('yoyoyoy');
-
     let posts = [...props.profilePage.posts]
                 .reverse()
                 .map(p => <PostItem key={p.id} message={p.text} likes={p.likes}/>);

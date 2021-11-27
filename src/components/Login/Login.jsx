@@ -4,7 +4,7 @@ import sFormControl from './../../components/common/FormsControls.module.css';
 import {Field, reduxForm} from 'redux-form';
 import {Input} from '../common/FormsControls';
 import {required} from '../../utils/validators/validator';
-import {Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 
 
 const LoginForm = ({handleSubmit, error}) => {
@@ -47,7 +47,7 @@ const Login = (props) => {
     }
 
     if (props.isAuth) {
-        return <Redirect to={'/profile'}/>
+        return <Navigate replace to={'/profile'}/>
     }
 
     return(

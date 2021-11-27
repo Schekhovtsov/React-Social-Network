@@ -2,14 +2,19 @@ import React from 'react';
 import Profile from './Profile';
 import {connect} from 'react-redux';
 import {getUserProfile, getUserStatus, updateUserStatus} from '../../redux/profile-reducer';
-import {withRouter} from 'react-router-dom';
 import {compose} from 'redux';
+import {useParams} from 'react-router-dom';
+
+const withRouter = WrappedComponent => props => {
+    const params = useParams();
+    return <WrappedComponent {...props} params={params} />;
+};
 
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
+        let userId = this.props.params.userId; // Тянем URL
 
-        let userId = this.props.match.params.userId; // Тянем URL
         if (!userId) { // Если в адресе нет userId
             userId = this.props.authUserId; // Наш профиль
             if (!userId) { // Если авторизованного не оказалось
@@ -19,6 +24,7 @@ class ProfileContainer extends React.Component {
 
         this.props.getUserProfile(userId);
         this.props.getUserStatus(userId);
+
     }
 
     render() {
