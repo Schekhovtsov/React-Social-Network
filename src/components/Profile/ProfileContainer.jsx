@@ -18,7 +18,8 @@ class ProfileContainer extends React.Component {
         if (!userId) { // Если в адресе нет userId
             userId = this.props.authUserId; // Наш профиль
             if (!userId) { // Если авторизованного не оказалось
-                this.props.history.push('/login');
+                //this.props.history.push('/login');
+                alert('Тут должен быть редирект на /login');
             }
         }
 
