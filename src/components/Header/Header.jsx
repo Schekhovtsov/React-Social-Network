@@ -7,7 +7,7 @@ const Header = (props) => {
         <header className={s.header}>
             <div className={s.headerBody}>
                 <div className={s.siteTitle}>
-                    <a href='/'>My React Social Network</a>
+                    <a href={window.location.origin}>My React Social Network</a>
                 </div>
                 <div className={s.loginBlock}>
                     <div className={s.body}>

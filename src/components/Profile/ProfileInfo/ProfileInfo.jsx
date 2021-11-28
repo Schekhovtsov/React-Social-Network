@@ -4,17 +4,22 @@ import noAvatarUser from '../../../assets/images/no_avatar.png';
 import ProfileStatus from './ProfileStatus.jsx';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 
-const ProfileInfo = ({profile,
-                     status, updateStatus}) => {
+const ProfileInfo = ({profile, isOwner,
+                     status, updateStatus, saveAvatar}) => {
 
     if (!profile) {
         return <Preloader />
     }
 
+    const avatarSelected = (e) => {
+        if (e.target.files.length) {
+            saveAvatar(e.target.files[0]);
+        }
+    }
+
     return (
 
         <div className={s.contentGrid}>
-
 
                 {profile.photos.large != null ? (
                     <div className={s.profileImage}>
@@ -29,7 +34,7 @@ const ProfileInfo = ({profile,
 
             <div className={s.avatar}>
                 <img src={
-                    profile.photos.small != null ? profile.photos.small : noAvatarUser
+                    profile.photos.small || noAvatarUser
                 } alt='Аватар'/>
             </div>
 
@@ -41,9 +46,11 @@ const ProfileInfo = ({profile,
                     <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
                     { profile.aboutMe ? 'About me: ' + profile.aboutMe : null } <br /><br />
                     { profile.lookingForAJob ? 'Ищу работу' : 'Не ищу работу'} <br /><br />
-                    { profile.contacts.twitter ? profile.contacts.twitter : null} <br />
-                    { profile.contacts.vk ? profile.contacts.vk : null} <br />
-                    { profile.contacts.github ? profile.contacts.github : null} <br />
+                    { profile.contacts.twitter ? profile.contacts.twitter + <br /> + '' : null }
+                    { profile.contacts.vk ? profile.contacts.vk + <br /> + '' : null }
+                    { profile.contacts.github ? profile.contacts.github + <br /> + '' : null }
+
+                    Загрузить аватар: {isOwner && <input type="file" onChange={avatarSelected}/>}
                 </div>
             </div>
 

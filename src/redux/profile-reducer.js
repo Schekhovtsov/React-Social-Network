@@ -5,6 +5,7 @@ const ADD_POST = 'rsn/profile/ADD_POST';
 const DELETE_POST = 'rsn/profile/DELETE_POST';
 const SET_USER_PROFILE = 'rsn/profile/SET_USER_PROFILE';
 const SET_USER_STATUS = 'rsn/profile/SET_USER_STATUS';
+const SET_USER_AVATAR = 'rsn/profile/SET_USER_AVATAR';
 
 let initialState = {
     posts: [
@@ -57,6 +58,14 @@ const profileReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_USER_AVATAR: {
+            debugger
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos},
+            }
+        }
+
         default:
             return state;
 
@@ -68,9 +77,9 @@ const profileReducer = (state = initialState, action) => {
 
 export const addPostCreator = (newPostBody) => ({type: ADD_POST, text: newPostBody});
 export const deletePostCreator = (postId) => ({type: DELETE_POST, postId});
-
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
 export const setUserStatus = (status) => ({type: SET_USER_STATUS, status});
+export const setUserAvatar = (photos) => ({type: SET_USER_AVATAR, photos});
 
 export const getUserProfile = (userId) => async (dispatch) => {
 
@@ -94,6 +103,15 @@ export const updateUserStatus = (status) => async (dispatch) => {
         dispatch(setUserStatus(status));
     }
 
+}
+
+export const saveAvatar = (file) => async (dispatch) => {
+
+    let response = await profileAPI.savePhoto(file);
+
+    if (response.data.resultCode === 0 ) {
+        dispatch(setUserAvatar(response.data.data.photos));
+    }
 
 }
 
