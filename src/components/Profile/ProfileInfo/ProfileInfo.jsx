@@ -3,12 +3,38 @@ import Preloader from '../../common/Preloader';
 import noAvatarUser from '../../../assets/images/no_avatar.png';
 import ProfileStatus from './ProfileStatus.jsx';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
+import ProfileDataForm from './ProfileDataForm';
+import {useState} from 'react';
 
-const ProfileInfo = ({profile, isOwner,
-                     status, updateStatus, saveAvatar}) => {
+export const Contact = ({contactTitle, contactValue}) => {
+    return <div><b>{contactTitle}</b>: {contactValue} </div>
+}
+
+const ProfileData = ({profile, isOwner, goToEditMode}) => {
+    return (
+        <div>
+            {isOwner && <button onClick={goToEditMode}>Редактировать</button>}
+            {profile.aboutMe ? 'About me: ' + profile.aboutMe : null} <br/><br/>
+            {profile.lookingForAJob ? 'Ищу работу' : 'Не ищу работу'}
+            {profile.lookingForAJobDescription && <div>{profile.lookingForAJobDescription}</div>} <br/>
+
+            {Object.keys(profile.contacts).map(key => {
+                    return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]} />
+                }
+            )}
+        </div>
+    );
+}
+
+const ProfileInfo = ({ profile, isOwner,
+                         status, updateStatus, saveAvatar
+                     }) => {
+
+
+    const [editMode, setEditMode] = useState(false);
 
     if (!profile) {
-        return <Preloader />
+        return <Preloader/>
     }
 
     const avatarSelected = (e) => {
@@ -21,36 +47,38 @@ const ProfileInfo = ({profile, isOwner,
 
         <div className={s.contentGrid}>
 
-                {profile.photos.large != null ? (
-                    <div className={s.profileImage}>
-                        <img src={profile.photos.large} alt='Изображение профиля'/>
-                    </div> ) : (
-                    <div className={s.profileImage}>
+            {profile.photos.large != null ? (
+                <div className={s.profileImage}>
+                    <img src={profile.photos.large} alt="Изображение профиля"/>
+                </div>) : (
+                <div className={s.profileImage}>
 
-                            Обложка не загружена
+                    Обложка не загружена
 
-                    </div> )
-                }
+                </div>)
+            }
 
             <div className={s.avatar}>
                 <img src={
                     profile.photos.small || noAvatarUser
-                } alt='Аватар'/>
+                } alt="Аватар"/>
             </div>
 
             <div className={s.bio}>
                 <div className={s.name}>
-                    { profile.fullName }
+                    {profile.fullName}
                 </div>
                 <div className={s.desc}>
-                    <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
-                    { profile.aboutMe ? 'About me: ' + profile.aboutMe : null } <br /><br />
-                    { profile.lookingForAJob ? 'Ищу работу' : 'Не ищу работу'} <br /><br />
-                    { profile.contacts.twitter ? profile.contacts.twitter + <br /> + '' : null }
-                    { profile.contacts.vk ? profile.contacts.vk + <br /> + '' : null }
-                    { profile.contacts.github ? profile.contacts.github + <br /> + '' : null }
 
-                    Загрузить аватар: {isOwner && <input type="file" onChange={avatarSelected}/>}
+                    <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
+
+                    { editMode
+                        ? <ProfileDataForm profile={profile} />
+                        : <ProfileData profile={profile}
+                                       isOwner={isOwner}
+                                       goToEditMode={ () => { setEditMode(true) } } /> }
+
+                    {isOwner && <div> Загрузить аватар: <input type="file" onChange={avatarSelected}/></div>}
                 </div>
             </div>
 
