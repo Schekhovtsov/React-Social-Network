@@ -8,13 +8,13 @@ const sidebar = (props) => {
         <div>
             <nav className={s.nav}>
                 <div className={s.item}>
-                    <NavLink to='/profile' activeClassName={s.active}>Profile</NavLink>
+                    <NavLink to='/profile'>Profile</NavLink>
                 </div>
                 <div className={s.item}>
-                    <NavLink to='/dialogs' activeClassName={s.active}>Messages</NavLink>
+                    <NavLink to='/dialogs'>Messages</NavLink>
                 </div> <br />
                 <div className={s.item}>
-                    <NavLink to='/users' activeClassName={s.active}>Users</NavLink>
+                    <NavLink to='/users'>Users</NavLink>
                 </div>
               {/*  <div className={s.item}>
                     <NavLink to='/news' activeClassName={s.active}>News</NavLink>

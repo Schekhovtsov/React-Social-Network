@@ -27,7 +27,7 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 }
 
 const ProfileInfo = ({ profile, isOwner,
-                         status, updateStatus, saveAvatar
+                         status, updateStatus, saveAvatar, saveProfile
                      }) => {
 
 
@@ -41,6 +41,15 @@ const ProfileInfo = ({ profile, isOwner,
         if (e.target.files.length) {
             saveAvatar(e.target.files[0]);
         }
+    }
+
+    const onSubmit = (formData) => {
+        saveProfile(formData).then(
+            () => {
+                setEditMode(false);
+            }
+        );
+
     }
 
     return (
@@ -73,7 +82,8 @@ const ProfileInfo = ({ profile, isOwner,
                     <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
 
                     { editMode
-                        ? <ProfileDataForm profile={profile} />
+                        ? <ProfileDataForm profile={profile}
+                                           onSubmit={onSubmit} />
                         : <ProfileData profile={profile}
                                        isOwner={isOwner}
                                        goToEditMode={ () => { setEditMode(true) } } /> }

@@ -1,5 +1,6 @@
 import {profileAPI, usersAPI} from '../api/api';
 import {setAuthUsersData} from './auth-reducer';
+import {stopSubmit} from 'redux-form';
 
 const ADD_POST = 'rsn/profile/ADD_POST';
 const DELETE_POST = 'rsn/profile/DELETE_POST';
@@ -82,37 +83,38 @@ export const setUserStatus = (status) => ({type: SET_USER_STATUS, status});
 export const setUserAvatar = (photos) => ({type: SET_USER_AVATAR, photos});
 
 export const getUserProfile = (userId) => async (dispatch) => {
-
     let response = await usersAPI.getUserProfile(userId);
     dispatch(setUserProfile(response));
-
 }
 
 export const getUserStatus = (userId) => async (dispatch) => {
-
     let response = await profileAPI.getUserStatus(userId);
     dispatch(setUserStatus(response.data));
-
 }
 
 export const updateUserStatus = (status) => async (dispatch) => {
-
     let response = await profileAPI.updateUserStatus(status);
-
     if (response.data.resultCode === 0 ) {
         dispatch(setUserStatus(status));
     }
-
 }
 
 export const saveAvatar = (file) => async (dispatch) => {
-
     let response = await profileAPI.savePhoto(file);
-
-    if (response.data.resultCode === 0 ) {
+    if (response.data.resultCode === 0) {
         dispatch(setUserAvatar(response.data.data.photos));
     }
+}
 
+export const saveProfile = (profile) => async (dispatch, getState) => {
+    const userId = getState().auth.id;
+    const response = await profileAPI.saveProfile(profile);
+    if (response.data.resultCode === 0 ) {
+        dispatch(getUserProfile(userId))
+    }   else    {
+        dispatch(stopSubmit('editProfile', {_error: response.data.messages[0]}));
+        return Promise.reject(response.data.messages[0]);
+    }
 }
 
 export default profileReducer;

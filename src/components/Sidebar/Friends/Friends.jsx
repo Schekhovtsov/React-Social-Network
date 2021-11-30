@@ -5,7 +5,7 @@ const Friends = (props) => {
 
     let friendsElements =
         props.friends.map(f => (
-            <div>
+            <div key={f.id}>
                 <FriendItem id={f.id} img={f.img} name={f.name}/>
             </div>)
         );

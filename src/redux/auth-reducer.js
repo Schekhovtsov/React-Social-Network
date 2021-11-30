@@ -56,8 +56,7 @@ export const login = (email, password, rememberMe) => async (dispatch) => {
         let message = response.data.messages.length > 0 ?
             response.data.messages[0] :
             null ; // 'Some error'
-        dispatch(stopSubmit('Login',
-            {_error: message}));
+        dispatch(stopSubmit('Login', {_error: message}));
     }
 
 }

@@ -40,7 +40,7 @@ const Paginator = ({totalItemsCount, pageSize,
                                     page <= rightBorderInBatchNumber)
                     .map(page => {
                         return (
-                            <span className={currentPage === page && s.selectedPage}
+                            <span key={page} className={currentPage === page && s.selectedPage}
                                   onClick={(e) => {
                                       onPageChanged(page);
                                   }}>{page}</span>
