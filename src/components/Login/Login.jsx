@@ -7,7 +7,12 @@ import {required} from '../../utils/validators/validator';
 import {Navigate} from 'react-router-dom';
 
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
+
+    let x = captchaUrl;
+    debugger
+
+
 
     return (
         <form onSubmit={handleSubmit}>
@@ -31,6 +36,12 @@ const LoginForm = ({handleSubmit, error}) => {
                 {error}
             </div> }
             <div>
+
+                {captchaUrl && <img src={captchaUrl} />}
+                {captchaUrl && <Field name={'captcha'}
+                                      component={Input}
+                                      validate={[required]} />}
+
                 <button>Login</button>
             </div>
         </form>
@@ -43,7 +54,7 @@ const LoginReduxForm = reduxForm({form: 'Login'})(LoginForm);
 const Login = (props) => {
 
     const onSubmit = (formData) => {
-        props.login(formData.email, formData.password, formData.rememberMe);
+        props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
     }
 
     if (props.isAuth) {
@@ -56,7 +67,7 @@ const Login = (props) => {
             <a className={s.link} target='_blank'
                href={'https://social-network.samuraijs.com/login'}>регистрацию</a>
             <hr />
-            <LoginReduxForm onSubmit={onSubmit} />
+            <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
         </div>
     )
 
