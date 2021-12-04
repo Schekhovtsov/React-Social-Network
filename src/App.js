@@ -2,7 +2,7 @@ import './App.css';
 
 import React, {Suspense} from 'react';
 import Sidebar from "./components/Sidebar/Sidebar";
-import {BrowserRouter, HashRouter, Route, Routes,} from 'react-router-dom';
+import {BrowserRouter, HashRouter, Route, Routes} from 'react-router-dom';
 
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
@@ -21,8 +21,18 @@ const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsCo
 
 class App extends React.Component {
 
+    catchAllUnhandledErrors = (promiseRejectionEvent) => {
+        alert('Some error occurred');
+        console.log(promiseRejectionEvent);
+    }
+
     componentDidMount() {
         this.props.initializeApp();
+        window.addEventListener('unhandledRejection', this.catchAllUnhandledErrors);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('unhandledRejection', this.catchAllUnhandledErrors);
     }
 
     render() {
@@ -37,12 +47,13 @@ class App extends React.Component {
                     <Suspense fallback={<Preloader />}>
                         <Routes>
                             <Route exact path='/' element={<HelloComponent />} />
+                            <Route exact path='/login' element={<LoginContainer />} />
                             <Route path='/profile' element={<ProfileContainer />} >
                                 <Route path=':userId' element={<ProfileContainer />} />
                             </Route>
                             <Route exact path='/users' element={<UsersContainer />} />
                             <Route exact path='/dialogs' element={<DialogsContainer />} />
-                            <Route exact path='/login' element={<LoginContainer />} />
+                            <Route path="*" element={<div><p>There's nothing here!</p></div>}/>
                         </Routes>
                     </Suspense>
                 </div>
@@ -57,13 +68,12 @@ const mapStateToProps = (state) => ({
 });
 
 let AppContainer = compose(
-    //withRouter,
     connect(mapStateToProps, {initializeApp, logout})
 )(App);
 
 //alert (window.location.href);
 
-const urlChecker = () => {
+/*const urlChecker = () => {
     const baseUrl = window.location.href;
     const afterSlashUrl = process.env.PUBLIC_URL; //process.env.PUBLIC_URL;
     const rule = baseUrl.includes(afterSlashUrl);
@@ -74,14 +84,15 @@ const urlChecker = () => {
     }
 }
 
-urlChecker();
+urlChecker();*/
+
 const SamuraiJSApp = (props) => {
     return (
-        <HashRouter>
+        <BrowserRouter>
             <Provider store={store}>
                 <AppContainer />
             </Provider>
-        </HashRouter>
+        </BrowserRouter>
     );
 }
 
